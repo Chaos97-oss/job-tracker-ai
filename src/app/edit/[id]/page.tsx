@@ -1,19 +1,15 @@
+import { notFound } from "next/navigation";
 import JobForm from "@/components/JobForm";
 import { readJobs } from "@/lib/jobsStorage";
-import { notFound } from "next/navigation";
 import { Job } from "@/types/job";
 
-type Props = {
-  params: {
-    id: string;
-  };
+type PageProps = {
+  params: { id: string };
 };
 
-export default async function EditJobPage({ params }: Props) {
-  const { id } = params;
+export default function EditJobPage({ params }: PageProps) {
   const jobs: Job[] = readJobs();
-
-  const job = jobs.find((j) => j.id.trim() === id.trim());
+  const job = jobs.find((j) => j.id === params.id);
 
   if (!job) return notFound();
 
