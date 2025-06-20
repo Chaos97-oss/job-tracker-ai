@@ -35,3 +35,43 @@ cp .env.local.example .env.local
 # Add your OpenAI API key to .env.local
 
 npm run dev
+
+
+## 📡 API Routes
+The following RESTful API routes are available for interacting with job applications.
+
+🔹 GET /api/jobs
+Fetch all job applications.
+Response: 200 OK with JSON array of jobs.
+🔹 POST /api/jobs
+Create a new job application.
+Body:
+{
+  "title": "Backend Engineer",
+  "company": "Chaos Inc.",
+  "link": "https://example.com/job",
+  "status": "Applied"
+}
+Response: 201 Created with newly created job.
+🔹 PUT /api/jobs/:id
+Update an existing job by its id.
+Body:
+{
+  "title": "Updated Title",
+  "status": "Interviewing"
+}
+Response: 200 OK with success message.
+🔹 DELETE /api/jobs/:id
+Delete a job by its id.
+Response: 200 OK with confirmation.
+🤖 POST /api/analyze
+Analyze a job description using AI (OpenAI).
+Body:
+{
+  "description": "We need a backend engineer with Node.js, Docker, and PostgreSQL experience."
+}
+Response:
+{
+  "summary": "This role focuses on backend development using modern tech.",
+  "skills": ["Node.js", "Docker", "PostgreSQL"]
+}
