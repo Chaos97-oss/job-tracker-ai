@@ -1,36 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🧠 Job Tracker AI
 
-## Getting Started
+A full-stack job application tracker built with **Next.js**, **TypeScript**, and **Tailwind CSS**, featuring AI-powered job description analysis via OpenAI.
 
-First, run the development server:
+![screenshot](./public/screenshot.png)
+
+## ✨ Features
+
+- 📋 Add, edit, and delete job applications
+- 📊 Dashboard table view with job statuses
+- 🧠 AI Analyzer to summarize job descriptions and extract relevant skills
+- 💾 Data stored locally in a `jobs.json` file (no database needed)
+- 🔥 Beautiful UI with Tailwind CSS
+- ✅ Built with App Router and API routes (Next.js 14+)
+
+---
+
+## 🛠 Tech Stack
+
+- **Frontend**: Next.js 14, React, TypeScript, Tailwind CSS
+- **Backend**: API Routes (Node.js), local JSON storage
+- **AI Integration**: OpenAI GPT-3.5 (via API)
+- **Deployment**: Vercel
+
+---
+
+## 📦 Getting Started
 
 ```bash
+git clone https://github.com/yourusername/job-tracker-ai.git
+cd job-tracker-ai
+
+npm install
+cp .env.local.example .env.local
+# Add your OpenAI API key to .env.local
+
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
