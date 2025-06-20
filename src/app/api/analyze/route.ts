@@ -43,6 +43,6 @@ Job Description:
 
 console.log("✅ GPT RAW RESPONSE OBJECT >>>", chat); // FULL response
 
-let raw = chat.choices[0].message.content || "";
+const raw = chat.choices[0].message.content || "";
 console.log("🧠 GPT MESSAGE CONTENT >>>", raw);
 }

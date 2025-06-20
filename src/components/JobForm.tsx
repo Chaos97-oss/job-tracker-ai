@@ -1,45 +1,48 @@
 "use client";
+
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Job } from "@/types/job";
 
-export default function JobForm({
-  existingJob,
-  isEdit = false,
-}: {
-  existingJob?: any;
+type JobFormProps = {
+  existingJob?: Job;
   isEdit?: boolean;
-}) {
+};
+
+export default function JobForm({ existingJob, isEdit = false }: JobFormProps) {
   const router = useRouter();
-  const [formData, setFormData] = useState({
+
+  const [formData, setFormData] = useState<Omit<Job, "id">>({
     title: existingJob?.title || "",
     company: existingJob?.company || "",
     link: existingJob?.link || "",
     status: existingJob?.status || "Applied",
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-  const method = isEdit ? "PUT" : "POST";
-  const endpoint = isEdit ? `/api/jobs/${existingJob.id}` : "/api/jobs";
+    const method = isEdit ? "PUT" : "POST";
+    const endpoint = isEdit && existingJob?.id ? `/api/jobs/${existingJob.id}` : "/api/jobs";
 
-  const res = await fetch(endpoint, {
-    method,
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(formData),
-  });
+    const res = await fetch(endpoint, {
+      method,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    });
 
-  if (res.ok) {
-    router.push("/");
-  } else {
-    // Optional: just alert the user without console noise
-    alert("❌ Failed to save job. Please try again.");
-  }
-};
+    if (res.ok) {
+      router.push("/");
+    } else {
+      alert("❌ Failed to save job. Please try again.");
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
@@ -51,6 +54,7 @@ const handleSubmit = async (e: React.FormEvent) => {
           value={formData.title}
           onChange={handleInputChange}
           className="w-full p-2 border rounded"
+          required
         />
       </div>
       <div>
@@ -61,6 +65,7 @@ const handleSubmit = async (e: React.FormEvent) => {
           value={formData.company}
           onChange={handleInputChange}
           className="w-full p-2 border rounded"
+          required
         />
       </div>
       <div>
