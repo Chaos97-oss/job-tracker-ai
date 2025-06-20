@@ -1,14 +1,23 @@
 "use client";
+
 import { useState } from "react";
+
+type AnalyzeResponse = {
+  summary: string;
+  skills: string[];
+};
 
 export default function AnalyzePage() {
   const [description, setDescription] = useState("");
-  const [result, setResult] = useState<any>(null);
+  const [result, setResult] = useState<AnalyzeResponse | null>(null);
   const [loading, setLoading] = useState(false);
 
   const handleAnalyze = async () => {
+    if (!description.trim()) return;
+
     setLoading(true);
-    setResult(null); // Clear previous result
+    setResult(null);
+
     try {
       const res = await fetch("/api/analyze", {
         method: "POST",
@@ -16,17 +25,17 @@ export default function AnalyzePage() {
         body: JSON.stringify({ description }),
       });
 
-      const data = await res.json();
+      const data: AnalyzeResponse = await res.json();
       setResult(data);
-    } catch (err) {
-      setResult({ error: "Something went wrong. Please try again." });
+    } catch {
+      console.error("❌ Failed to analyze job description");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <main className="p-6 max-w-xl mx-auto">
+    <main className="p-6 max-w-xl mx-auto text-white">
       <h1 className="text-2xl font-bold mb-4">🧠 Job Description Analyzer</h1>
 
       <textarea
@@ -34,14 +43,16 @@ export default function AnalyzePage() {
         value={description}
         onChange={(e) => setDescription(e.target.value)}
         placeholder="Paste a job description here..."
-        className="w-full p-3 border rounded mb-4"
+        className="w-full p-3 border rounded mb-4 text-black"
       />
 
       <button
         onClick={handleAnalyze}
         disabled={loading}
-        className={`px-4 py-2 rounded text-white ${
-          loading ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"
+        className={`px-4 py-2 rounded text-white transition ${
+          loading
+            ? "bg-gray-400 cursor-not-allowed"
+            : "bg-blue-600 hover:bg-blue-700"
         }`}
       >
         {loading ? (
@@ -73,24 +84,14 @@ export default function AnalyzePage() {
         )}
       </button>
 
-      {/* Handle errors or malformed data */}
-      {result?.error && (
-        <p className="mt-4 text-red-500 font-semibold">❌ {result.error}</p>
-      )}
-
-      {/* Only render summary and skills if they exist */}
-      {result?.summary && (
+      {result && (
         <div className="mt-6">
           <h2 className="text-lg font-semibold">Summary</h2>
-          <p>{result.summary}</p>
-        </div>
-      )}
+          <p className="mb-4">{result.summary}</p>
 
-      {result?.skills && Array.isArray(result.skills) && result.skills.length > 0 && (
-        <div className="mt-4">
           <h2 className="text-lg font-semibold">Skills</h2>
           <ul className="list-disc ml-5">
-            {result.skills.map((skill: string, idx: number) => (
+            {result.skills.map((skill, idx) => (
               <li key={idx}>{skill}</li>
             ))}
           </ul>
